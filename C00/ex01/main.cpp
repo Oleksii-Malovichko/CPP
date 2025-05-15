@@ -15,7 +15,7 @@ int main()
 			break;
 		}
 		i = 0;
-		while (i < command.length() && std::isspace(static_cast<unsigned char>(command[i])))
+		while (i < command.size() && std::isspace(static_cast<unsigned char>(command[i])))
 			i++;
 		if (i > 0)
 			command = command.substr(i);

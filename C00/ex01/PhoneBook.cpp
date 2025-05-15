@@ -16,7 +16,7 @@ bool	isNumeric(const std::string &str)
 	ptr = str.c_str(); // для преобразования в си строку (const char *ptr)
 	if (*ptr == '\0')
 		return (false);
-	if (*ptr == '-')
+	if (*ptr == '-' || *ptr == '+')
 		ptr++;
 	while (*ptr)
 	{
@@ -25,6 +25,27 @@ bool	isNumeric(const std::string &str)
 		ptr++;
 	}
 	return true;
+}
+
+bool isValidIntRange(std::string str)
+{
+	if (str.empty())
+		return false;
+	
+	int start = 0;
+	if (str[0] == '-' || str[0] == '+')
+		start++;
+	if (start == 1 && str.size() == 1)
+		return false;
+	for (size_t i = start; i < str.size(); i++)
+	{
+		if (!std::isdigit(static_cast<unsigned char>(str[i])))
+			return (false);
+	}
+	if (str.size() - start > 10)
+		return false;
+	long long val = std::stoll(str);
+	return (val >= std::numeric_limits<int>::min() && val <= std::numeric_limits<int>::max());
 }
 
 void	PhoneBook::searchContact()
@@ -41,9 +62,9 @@ void	PhoneBook::searchContact()
 			perror("[searchContact] getline");
 			exit(1);
 		}
-		if (isNumeric(str_index) == false)
+		if (!isValidIntRange(str_index))
 		{
-			std::cout << "Index must be a num!" << std::endl;
+			std::cout << "[searchContact:isValidIntRange] Invalid index!" << std::endl;
 			continue;
 		}
 		index = std::stoi(str_index);
@@ -52,7 +73,10 @@ void	PhoneBook::searchContact()
 		if (index >= 0 && index < 8 && !contacts[index].isEmpty())
 			contacts[index].showFull();
 		else
-			std::cout << "Invalid index!" << std::endl;
+		{
+			std::cout << "[searchContact] Invalid index!" << std::endl;
+			continue;
+		}
 	}
 }
 
