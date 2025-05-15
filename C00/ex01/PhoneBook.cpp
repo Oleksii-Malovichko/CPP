@@ -1,48 +1,40 @@
 #include "PhoneBook.hpp"
 
-PhoneBook::PhoneBook() : totalContacts(0), currentIndex(0) {}
+PhoneBook::PhoneBook() : cur_index(0) {}
 
 void	PhoneBook::addContact()
 {
-	Contact newContact;
-	newContact.setContact();
-	if (!newContact.isValid())
-	{
-		std::cout << "Error: all fields must be field!" << std::endl;
-		return ;
-	}
-	contacts[currentIndex] = newContact;
-	currentIndex = (currentIndex + 1) % 8;
-	if (totalContacts < 8)
-		totalContacts++;
-	std::cout << "Contact added succesfully" << std::endl;
+	std::cout << "Adding a new contact..." << std::endl;
+	contacts[cur_index].setContact();
+	cur_index = (cur_index + 1) % 8;
 }
 
-void	PhoneBook::searchContact() const
+void	PhoneBook::searchContact()
 {
-	if (totalContacts == 0)
-	{
-		std::cout << "Phonebook is empty!" << std::endl;
-		return ;
-	}
+	int index;
 
+	showContacts();
+
+	std::cout << "Enter index to view full contact details or -1 to come back to the commands: ";
+	std::cin >> index;
+	std::cin.ignore(); // free the buffer of std::cin
+	if (index == -1)
+		return ;
+	if (index >= 0 && index < 8 && !contacts[index].isEmpty())
+		contacts[index].showFull();
+	else
+		std::cout << "Invalid index!" << std::endl;
+}
+
+void	PhoneBook::showContacts()
+{
 	std::cout << std::setw(10) << "Index" << "|"
 				<< std::setw(10) << "First name" << "|"
 				<< std::setw(10) << "Last name" << "|"
 				<< std::setw(10) << "Nickname" << std::endl;
-
-	for (int i = 0; i < totalContacts; i++)
-		contacts[i].displayShort(i);
-	std::cout << "Enter index: ";
-	int index;
-	std::cin >> index;
-	if (std::cin.fail() || index < 0 || index >= totalContacts)
+	for (int i = 0; i < 8; i++)
 	{
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "Invalid index!" << std::endl;
-		return ;
+		if (!contacts[i].isEmpty())
+			contacts[i].showShort(i);
 	}
-	std::cin.ignore();
-	contacts[index].displayFull();
 }

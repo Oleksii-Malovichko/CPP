@@ -1,23 +1,42 @@
 #include "Contact.hpp"
 
-void	Contact::setContact()
+Contact::Contact()
 {
-	std::cout << "First name: ";
-	std::getline(std::cin, firstName);
-	std::cout << "Last name: ";
-	std::getline(std::cin, lastName);
-	std::cout << "Nickname: ";
-	std::getline(std::cin, nickName);
-	std::cout << "Phonenumber: ";
-	std::getline(std::cin, phoneNumber);
-	std::cout << "Darkest secret: ";
-	std::getline(std::cin, darkestSecret);
+	firstName = "";
+	lastName = "";
+	nickName = "";
+	phoneNumber = "";
+	darkestSecret = "";
 }
 
-bool	Contact::isValid() const
+bool Contact::isEmpty()
 {
-	return (!(firstName.empty() || lastName.empty() || nickName.empty()
-				|| phoneNumber.empty() || darkestSecret.empty()));
+	return (firstName.empty());
+}
+
+void	Contact::setContact()
+{
+	std::cout << "Enter your First name: ";
+	std::getline(std::cin, firstName);
+
+	std::cout << "Enter your Last name: ";
+	std::getline(std::cin, lastName);
+
+	std::cout << "Enter your Nickname: ";
+	std::getline(std::cin, nickName);
+
+	std::cout << "Enter your Phone number: ";
+	std::getline(std::cin, phoneNumber);
+
+	std::cout << "Enter your Darkest secret: ";
+	std::getline(std::cin, darkestSecret);
+
+	if (firstName.empty() || lastName.empty() || nickName.empty()
+		|| phoneNumber.empty() || darkestSecret.empty())
+	{
+		std::cout << "Error: all fields must be filled!" << std::endl;
+		firstName = "";
+	}
 }
 
 std::string formatField(std::string str)
@@ -27,7 +46,7 @@ std::string formatField(std::string str)
 	return str;
 }
 
-void	Contact::displayShort(int index) const
+void	Contact::showShort(int index)
 {
 	std::cout << std::setw(10) << index << "|"
 		<< std::setw(10) << formatField(firstName) << "|"
@@ -35,7 +54,8 @@ void	Contact::displayShort(int index) const
 		<< std::setw(10) << formatField(nickName) << std::endl;
 }
 
-void	Contact::displayFull() const {
+void	Contact::showFull()
+{
 	std::cout << "First name: " << firstName << std::endl;
 	std::cout << "Last name: " << lastName << std::endl;
 	std::cout << "Nickname: " << nickName << std::endl;
