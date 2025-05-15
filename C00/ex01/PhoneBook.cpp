@@ -9,21 +9,51 @@ void	PhoneBook::addContact()
 	cur_index = (cur_index + 1) % 8;
 }
 
+bool	isNumeric(const std::string &str)
+{
+	const char *ptr;
+
+	ptr = str.c_str(); // для преобразования в си строку (const char *ptr)
+	if (*ptr == '\0')
+		return (false);
+	if (*ptr == '-')
+		ptr++;
+	while (*ptr)
+	{
+		if (!std::isdigit(static_cast<unsigned char>(*ptr)))
+			return false;
+		ptr++;
+	}
+	return true;
+}
+
 void	PhoneBook::searchContact()
 {
 	int index;
-
+	std::string str_index;
 	showContacts();
 
-	std::cout << "Enter index to view full contact details or -1 to come back to the commands: ";
-	std::cin >> index;
-	std::cin.ignore(); // free the buffer of std::cin
-	if (index == -1)
-		return ;
-	if (index >= 0 && index < 8 && !contacts[index].isEmpty())
-		contacts[index].showFull();
-	else
-		std::cout << "Invalid index!" << std::endl;
+	while (1)
+	{
+		std::cout << "Enter index to view full contact details or -1 to come back to the commands: ";
+		if (!std::getline(std::cin, str_index))
+		{
+			perror("[searchContact] getline");
+			exit(1);
+		}
+		if (isNumeric(str_index) == false)
+		{
+			std::cout << "Index must be a num!" << std::endl;
+			continue;
+		}
+		index = std::stoi(str_index);
+		if (index == -1)
+			break ;
+		if (index >= 0 && index < 8 && !contacts[index].isEmpty())
+			contacts[index].showFull();
+		else
+			std::cout << "Invalid index!" << std::endl;
+	}
 }
 
 void	PhoneBook::showContacts()
