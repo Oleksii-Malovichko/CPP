@@ -41,7 +41,7 @@ void	Contact::setContact()
 
 std::string formatField(std::string str)
 {
-	if (str.length() > 10)
+	if (str.size() > 10)
 		return (str.substr(0, 9) + ".");
 	return str;
 }
