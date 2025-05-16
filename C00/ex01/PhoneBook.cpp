@@ -6,7 +6,8 @@ void	PhoneBook::addContact()
 {
 	std::cout << "Adding a new contact..." << std::endl;
 	contacts[cur_index].setContact();
-	cur_index = (cur_index + 1) % 8;
+	if (contacts[cur_index].checkName())
+		cur_index = (cur_index + 1) % 8;
 }
 
 bool	isNumeric(const std::string &str)

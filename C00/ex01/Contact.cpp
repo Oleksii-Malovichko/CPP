@@ -9,6 +9,13 @@ Contact::Contact()
 	darkestSecret = "";
 }
 
+bool Contact::checkName()
+{
+	if (!firstName.empty())
+		return 1;
+	return 0;
+}
+
 bool Contact::isEmpty()
 {
 	return (firstName.empty());

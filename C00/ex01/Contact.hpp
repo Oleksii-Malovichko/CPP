@@ -21,6 +21,7 @@ public:
 	void	showShort(int index);
 	void	showFull();
 	bool	isEmpty();
+	bool	checkName();
 };
 
 #endif
