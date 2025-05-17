@@ -1,16 +1,13 @@
 #include "Zombie.hpp"
 
 Zombie::Zombie()
-{}
-
-Zombie::Zombie(std::string name) : name(name)
 {
-	std::cout << name << "is constructed" << std::endl;
+	std::cout << " A zombie is constructed" << std::endl;
 }
 
 Zombie::~Zombie()
 {
-	std::cout << name << "is deconstructed" << std::endl;
+	std::cout << " A zombie is deconstructed" << std::endl;
 }
 
 void	Zombie::announce(void)

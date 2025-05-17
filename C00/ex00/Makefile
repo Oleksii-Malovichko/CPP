@@ -1,7 +1,7 @@
 NAME=megaphone
 
 CPP=c++
-CPP_FLAGS=-Wall -Wextra -Werror -std=c++98
+CPP_FLAGS=-Wall -Wextra -Werror -std=c++11
 SRCS=megaphone.cpp
 
 all: $(NAME)

@@ -1,13 +1,13 @@
-NAME = zombie
+NAME = horde
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror
-SRCS = main.cpp newZombie.cpp randomChump.cpp Zombie.cpp
-OBJS = $(SRCS=.cpp:.o)
+SRCS = main.cpp Zombie.cpp zombieHorde.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) Makefile
+$(NAME): Makefile
 	@echo "Compiling..."
 	@$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME) $(OBJS)
 	@echo "Ready!"
@@ -17,6 +17,4 @@ clean:
 
 fclean: clean
 
-re: fclean all
-
-.PHONY: clean fclean re all
+re: clean all
