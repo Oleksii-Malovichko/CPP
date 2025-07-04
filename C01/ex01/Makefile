@@ -3,7 +3,7 @@ NAME = horde
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror
 SRCS = main.cpp Zombie.cpp zombieHorde.cpp
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(SRCS=.cpp:.o)
 
 all: $(NAME)
 
