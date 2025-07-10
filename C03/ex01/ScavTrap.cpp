@@ -11,8 +11,7 @@ ScavTrap::ScavTrap() : ClapTrap("Default_Scav")
 
 ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name)
 {
-	// this->name = name; // почему тут this?
-	hitPoints = 100;
+	// this->name = name;
 	energyPoints = 50;
 	attackDamage = 20;
 	std::cout << "ScavTrap " << name << " constructed." << std::endl;
