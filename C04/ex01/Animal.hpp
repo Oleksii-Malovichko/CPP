@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include "Brain.hpp"
 
 class Animal
 {
@@ -16,16 +17,24 @@ class Animal
 
 class Dog : public Animal
 {
+	private:
+		Brain *brain;
 	public:
 		Dog();
+		Dog(const Dog &other);
+		Dog &operator=(const Dog &other);
 		virtual ~Dog();
 		void	makeSound() const override;
 };
 
 class Cat : public Animal
 {
+	private:
+		Brain *brain;
 	public:
 		Cat();
+		Cat(const Cat &other);
+		Cat &operator=(const Cat &other);
 		virtual ~Cat();
 		void	makeSound() const override;
 };

@@ -16,13 +16,26 @@ int main()
 	delete i;
 
 	std::cout << "\n------- WrongAnimal test -------" << std::endl;
-	const WrongAnimal *wrong = new WrongAnimal();
-	const WrongCat *wrongCat = new WrongCat();
-
+	const WrongAnimal* wrongCat = new WrongCat();
 	std::cout << wrongCat->getType() << " " << std::endl;
 	wrongCat->makeSound();
-	wrong->makeSound();
-	delete wrong;
 	delete wrongCat;
+
+	// This is anxample of working of the classical polymorphism
+	printf("\n-----------Classic polymorphism-----------\n");
+	Animal *animals[4];
+
+	animals[0] = new Dog();
+	animals[1] = new Cat();
+	animals[2] = new Dog();
+	animals[3] = new Animal();
+
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << animals[i]->getType() << ": ";
+		animals[i]->makeSound();
+	}
+	for (int i = 0; i < 4; i++)
+		delete animals[i];
 	return 0;
 }
