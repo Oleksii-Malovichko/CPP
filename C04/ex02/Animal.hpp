@@ -11,7 +11,7 @@ class Animal
 	public:
 		Animal();
 		virtual ~Animal(); // to do the destructor for cat and dog
-		virtual void makeSound() const = 0; // <----  abtract function
+		virtual void makeSound() const = 0; // <----  abtract function, now it's unreal to call this func by itself like: new Animal(); only its inheritors
 		std::string	getType() const;
 };
 

@@ -5,6 +5,11 @@ Brain::Brain()
 	std::cout << "Brain constructed." << std::endl;
 }
 
+/* 
+Used for this operation:
+Brain b1;
+Brain b2 = b1;
+ */
 Brain::Brain(const Brain &other)
 {
 	std::cout << "Brain copy constructed." << std::endl;
@@ -12,6 +17,13 @@ Brain::Brain(const Brain &other)
 		this->ideas[i] = other.ideas[i];
 }
 
+
+/* 
+Used for this operation:
+Brain b1;
+Brain b2;
+b2 = b1;
+*/
 Brain &Brain::operator=(const Brain &other)
 {
 	std::cout << "Brain assigned." << std::endl;
