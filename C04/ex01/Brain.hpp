@@ -9,7 +9,7 @@ class Brain
 		std::string ideas[100];
 	public:
 		Brain();
-		Brain(const Brain &other);
+		Brain(const Brain &other); // copy constructor
 		Brain& operator=(const Brain &other);
 		~Brain();
 		void setIdea(int index, const std::string &idea);

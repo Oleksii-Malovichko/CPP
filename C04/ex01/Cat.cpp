@@ -27,11 +27,11 @@ Cat &Cat::operator=(const Cat &other)
 
 Cat::~Cat()
 {
+	delete brain;
 	std::cout << "Cat destructed." << std::endl;
 }
 
 void	Cat::makeSound() const
 {
-	delete brain;
 	std::cout << "Meow!" << std::endl;
 }
