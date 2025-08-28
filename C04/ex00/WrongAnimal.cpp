@@ -6,6 +6,20 @@ WrongAnimal::WrongAnimal()
 	std::cout << "WrongAnimal constructed." << std::endl;
 }
 
+WrongAnimal::WrongAnimal(const WrongAnimal& other)
+{
+	std::cout << "WrongAnimal copied." << std::endl;
+	*this = other;
+}
+
+WrongAnimal& WrongAnimal::operator=(const WrongAnimal& other)
+{
+	if (this != &other)
+		this->type = other.type;
+	std::cout << "WrongAnimal assigned." << std::endl;
+	return *this;
+}
+
 WrongAnimal::~WrongAnimal()
 {
 	std::cout << "WrongAnimal destructed." << std::endl;
@@ -19,20 +33,4 @@ void	WrongAnimal::makeSound() const
 std::string WrongAnimal::getType() const
 {
 	return type;
-}
-
-WrongCat::WrongCat()
-{
-	type = "WrongCat";
-	std::cout << "WrongCat constructed." << std::endl;
-}
-
-WrongCat::~WrongCat()
-{
-	std::cout << "WrongCat destructed." << std::endl;
-}
-
-void	WrongCat::makeSound() const
-{
-	std::cout << "Meow (WrongCat)" << std::endl;
 }
