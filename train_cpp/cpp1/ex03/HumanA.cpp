@@ -1,9 +1,9 @@
 #include "HumanA.hpp"
 
-HumanA::HumanA(std::string name, Weapon &wepon)
+HumanA::HumanA(std::string name, Weapon &weapon) : weapon(weapon), name(name)
 {
     std::cout << "HumanA constructed" << std::endl;
-    this->weapon = wepon;
+    // this->weapon = wepon; // ошибка!!! реферные ссылки нужно инициализировать в списке инициализации
 }
 
 HumanA::~HumanA()
