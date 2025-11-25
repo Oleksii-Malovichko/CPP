@@ -18,7 +18,6 @@ void error()
 	std::cout << "int: impossible" << std::endl;
 	std::cout << "float: impossible" << std::endl;
 	std::cout << "double: impossible" << std::endl;
-	exit(1);
 }
 
 int checkSpesialLiterals(const std::string &literal)
@@ -50,8 +49,8 @@ int convertChar(const std::string &literal)
 	{
 		c = literal[1];
 	}
-	// else if (literal.length() == 1)
-	// 	c = literal[0];
+	else if (literal.length() == 1)
+		c = literal[0];
 	else
 		return 0;
 
@@ -94,24 +93,20 @@ int convertInt(const std::string &literal)
 	{
 		return 0;
 	}
-	// catch (const std::out_of_range&)
-	// {
-	// 	return 0;
-	// }
-	// catch (const std::invalid_argument&)
-	// {
-	// 	return 0;
-	// }
 	if (checker < std::numeric_limits<int>::min() || checker > std::numeric_limits<int>::max())
 		return 0;
 	int value = static_cast<int>(checker);
-	if (value >= 32 && value <= 126)
+	if (value < 0 || value > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (isprint(value))
 		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
 	else
 		std::cout << "char: non-displayable" << std::endl;
 	std::cout << "int: " << value << std::endl;
-	std::cout << "float: " << static_cast<float>(value) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(value) << ".0" << std::endl;
+	std::cout << std::fixed << std::setprecision(1); // without it i would get 2.14748e+09.0f
+	float fvalue = static_cast<float>(value);
+	std::cout << "float: " << fvalue << "f" << std::endl;// might be loss of precision with big numbers
+	std::cout << "double: " << static_cast<double>(value) << std::endl;
 	return 1;
 }
 
@@ -170,7 +165,7 @@ void convertFloat(const std::string &literal)
 	}
 	catch(...)
 	{
-		error();
+		return error();
 	}
 	// char
 	if (value >= 0 && value <= 127 && std::isprint(static_cast<char>(value)))
@@ -184,18 +179,26 @@ void convertFloat(const std::string &literal)
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
 	else
 		std::cout << "int: impossible" << std::endl;
-	
+
 	// float
-	std::cout << "float: " << value;
-	if (value == static_cast<int>(value))
-		std::cout << ".0";
-	std::cout << "f" << std::endl;
+	std::cout << "float: ";
+	if (std::isnan(value))
+		std::cout << "nanf";
+	else if (std::isinf(value))
+		std::cout << (value > 0 ? "+inff" : "-inff");
+	else
+		std::cout << std::fixed << std::setprecision(1) << value << "f";
+	std::cout << std::endl;
 
 	// double
 	double dvalue = static_cast<double>(value);
-	std::cout << "double: " << dvalue;
-	if (dvalue == static_cast<int>(dvalue))
-		std::cout << ".0";
+	std::cout << "double: ";
+	if (std::isnan(dvalue))
+		std::cout << "nan";
+	else if (std::isinf(dvalue))
+		std::cout << (dvalue > 0 ? "+inf" : "-inf");
+	else
+		std::cout << std::fixed << std::setprecision(1) << dvalue;
 	std::cout << std::endl;
 }
 
@@ -203,50 +206,45 @@ void convertDouble(const std::string &literal)
 {
 	double value;
 
-    try
+	try
 	{
-        value = std::stod(literal);
-    }
+		value = std::stod(literal);
+	}
 	catch (...)
 	{
-        return error();
-    }
+		return error();
+	}
 
-    // char
-    if (value >= 0 && value <= 127 && std::isprint(static_cast<char>(value)))
-        std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
-    else if (value >= 0 && value <= 127)
-        std::cout << "char: non-displayable" << std::endl;
-    else
-        std::cout << "char: impossible" << std::endl;
+	// char
+	if (value >= 0 && value <= 127 && std::isprint(static_cast<char>(value)))
+		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
+	else if (value >= 0 && value <= 127)
+		std::cout << "char: non-displayable" << std::endl;
+	else
+		std::cout << "char: impossible" << std::endl;
 
-    // int
-    if (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<int>::max())
-        std::cout << "int: " << static_cast<int>(value) << std::endl;
-    else
-        std::cout << "int: impossible" << std::endl;
+	// int
+	if (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<int>::max())
+		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	else
+		std::cout << "int: impossible" << std::endl;
 
-    // float (interesting math)
-    if (value >= -std::numeric_limits<float>::max() && value <= std::numeric_limits<float>::max())
-        std::cout << "float: " << static_cast<float>(value);
-    else
-        std::cout << "float: impossible";
-    
-    if (value == static_cast<int>(value))
-        std::cout << ".0";
-    std::cout << "f" << std::endl;
+	// float (interesting math)
+	std::cout << "float: ";
+	if (value >= -std::numeric_limits<float>::max() && value <= std::numeric_limits<float>::max())
+		std::cout << std::fixed << std::setprecision(1) << static_cast<float>(value) << "f";
+	else
+		std::cout << "float: impossible";
+	std::cout << std::endl;
 
-    // double
-    std::cout << "double: " << value;
-    if (value == static_cast<int>(value))
-        std::cout << ".0";
-    std::cout << std::endl;
+	// double
+	std::cout << "double: " << std::fixed << std::setprecision(1) << value << std::endl;
 }
 
 void ScalarConverter::convert(const std::string &literal)
 {
 	if (literal.empty())
-		error();
+		return error();
 	if (checkSpesialLiterals(literal))
 		return ;
 	if (convertChar(literal))
