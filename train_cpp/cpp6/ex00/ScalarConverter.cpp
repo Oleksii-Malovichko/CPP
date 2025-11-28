@@ -175,7 +175,7 @@ void convertFloat(const std::string &literal)
 	else
 		std::cout << "char: impossible" << std::endl;
 	// int
-	if (value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<int>::max())
+	if (value >= static_cast<double>(std::numeric_limits<int>::min()) && value <= static_cast<double>(std::numeric_limits<int>::max()))
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
 	else
 		std::cout << "int: impossible" << std::endl;
