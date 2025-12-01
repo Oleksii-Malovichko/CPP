@@ -2,6 +2,8 @@
 #include "Array.tpp"
 
 #define MAX_VAL 750
+
+// as i understood, the sense of this ex is to create an own array using class-template
 int main(int, char**)
 {
 	Array<int> numbers(MAX_VAL);

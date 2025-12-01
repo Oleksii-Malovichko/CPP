@@ -26,8 +26,10 @@ int main()
 	
 	std::cout << "\n" << std::endl;
 	// iter(arr1, 3, printEl<std::string>);
-	iter(arr1, 3, [](const auto &x){printEl(x);}); // tried to use labda
+	iter(arr1, 3, [](const auto &x){printEl(x);}); // tried to use lambda func
 	
 	std::cout << "\n" << std::endl;
 	iter(arr2, 4, printEl<int>);
+
+	return 0;
 }
