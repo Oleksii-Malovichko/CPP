@@ -11,7 +11,7 @@ float parse_value(std::string line, std::size_t pos)
 	catch(...)
 	{
 		std::cerr << "Error: bad input => " << line << std::endl;
-        return -1;
+		return -1;
 	}
 	
 	if (value < 0)
