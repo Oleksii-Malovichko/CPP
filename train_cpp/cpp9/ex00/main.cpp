@@ -1,6 +1,6 @@
 #include "BitcoinExchange.hpp"
 
-float parse_value(std::string line, std::size_t pos)
+float parse_value(std::string line, std::size_t pos, bool main)
 {
 	std::string value_str = line.substr(pos + 1);
 	float value;
@@ -19,7 +19,7 @@ float parse_value(std::string line, std::size_t pos)
 		std::cerr << "Error: not a positive number." << std::endl;
 		return -1;
 	}
-	if (value > 1000)
+	if (value > 1000 && main)
 	{
 		std::cerr << "Error: too large a number." << std::endl;
 		return -1;
@@ -59,7 +59,7 @@ bool parse_date(std::string line, std::string &date)
 		std::cerr << "Error: bad input => " << line << std::endl;
 		return 0;
 	}
-	
+
 	if (year < 2009 || year > 2022 || month < 1 || month > 12 || day < 1 || day > 31)
 	{
 		std::cerr << "Error: bad input => " << line << std::endl;
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		std::cerr << "Error: could not open file" << std::endl;
+		std::cerr << "Error: could not open file." << std::endl;
 		return 0;
 	}
 	BitcoinExchange exchange;
@@ -82,11 +82,10 @@ int main(int argc, char **argv)
 	std::ifstream inFile(argv[1]);
 	if (!inFile.is_open())
 	{
-		std::cerr << "Error: could not open file" << std::endl;
+		std::cerr << "Error: could not open file." << std::endl;
 		return 1;
 	}
 	std::string line;
-	std::map<std::string, float> info;
 	while (std::getline(inFile, line))
 	{
 		if (line == "date | value")
@@ -105,7 +104,7 @@ int main(int argc, char **argv)
 		std::string date = line.substr(0, pos);
 
 		//parse value
-		float value = parse_value(line, pos);
+		float value = parse_value(line, pos, 1);
 		if (value == -1)
 			continue;
 		// std::cout << value << std::endl;
@@ -114,10 +113,8 @@ int main(int argc, char **argv)
 		if (!parse_date(line, date))
 			continue;
 		// std::cout << date << std::endl;
-		info[date] = value;
+		exchange.findRate(date, value);
 	}
-
-
 	inFile.close();
 	return 0;
 }

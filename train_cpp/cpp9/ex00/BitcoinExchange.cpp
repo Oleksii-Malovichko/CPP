@@ -24,7 +24,7 @@ void BitcoinExchange::collectDb(const std::string &nameDB)
 
 	if (!inFile.is_open())
 	{
-		std::cerr << "Error: failed to open DB" << std::endl;
+		std::cerr << "Error: could not open file." << std::endl;
 		return ;
 	}
 	std::string line;
@@ -41,7 +41,7 @@ void BitcoinExchange::collectDb(const std::string &nameDB)
 		std::size_t pos = it - line.begin();
 		std::string date = line.substr(0, pos);
 		//parse value
-		float value = parse_value(line, pos);
+		float value = parse_value(line, pos, 0);
 		if (value == -1)
 			continue;
 
@@ -50,7 +50,29 @@ void BitcoinExchange::collectDb(const std::string &nameDB)
 			continue;
 		db[date] = value;
 	}
-	// вывести дб
-	for (const auto &pair : db)
-		std::cout << pair.first << " -> " << pair.second << std::endl;
+	// show db
+	// for (const auto &pair : db)
+	// 	std::cout << pair.first << " -> " << pair.second << std::endl;
+}
+
+void BitcoinExchange::findRate(std::string date, float value)
+{
+	auto it = db.lower_bound(date);
+	float price;
+
+	if (it != db.end() && it->first == date)
+	{
+		price = it->second * value;
+	}
+	else if (it != db.begin())
+	{
+		--it;
+		price = it->second * value;
+	}
+	else
+	{
+		std::cerr << "Error: no available date before " << date << std::endl;
+		return ;
+	}
+	std::cout << date << " => " << value << " = " << price << std::endl;
 }
