@@ -1,5 +1,73 @@
 #include "BitcoinExchange.hpp"
 
+float parse_value(std::string line, std::size_t pos)
+{
+	std::string value_str = line.substr(pos + 1);
+	float value;
+	try
+	{
+		value = std::stof(value_str);
+	}
+	catch(...)
+	{
+		std::cerr << "Error: bad input => " << line << std::endl;
+        return -1;
+	}
+	
+	if (value < 0)
+	{
+		std::cerr << "Error: not a positive number." << std::endl;
+		return -1;
+	}
+	if (value > 1000)
+	{
+		std::cerr << "Error: too large a number." << std::endl;
+		return -1;
+	}
+	return value;
+}
+
+bool parse_date(std::string line, std::string &date)
+{
+	date.erase(std::remove(date.begin(), date.end(), ' '), date.end());
+	if (date.size() != 10)
+	{
+		std::cerr << "Error: bad input => " << line << std::endl;
+		return 0;
+	}
+	if (date[4] != '-' || date[7] != '-')
+	{
+		std::cerr << "Error: bad input => " << line << std::endl;
+		return 0;
+	}
+
+	std::string year_str = date.substr(0, 4);
+	std::string month_str = date.substr(5, 2);
+	std::string day_str = date.substr(8, 2);
+
+	int year;
+	int month;
+	int day;
+	try
+	{
+		year = std::stoi(year_str);
+		month = std::stoi(month_str);
+		day = std::stoi(day_str);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "Error: bad input => " << line << std::endl;
+		return 0;
+	}
+	
+	if (year < 2009 || year > 2022 || month < 1 || month > 12 || day < 1 || day > 31)
+	{
+		std::cerr << "Error: bad input => " << line << std::endl;
+		return 0;
+	}
+	return 1;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -13,10 +81,39 @@ int main(int argc, char **argv)
 		std::cerr << "Error: could not open file" << std::endl;
 		return 1;
 	}
+
+
 	std::string line;
+	int i = 0;
 	while (std::getline(inFile, line))
 	{
-		std::cout << line << std::endl;
+		if (i == 0 && line == "date | value")
+		{
+			i++;
+			continue;
+		}
+
+		auto it = std::find(line.begin(), line.end(), '|');
+		if (it == line.end())
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue;
+		}
+		
+		std::size_t pos = it - line.begin();
+		std::string date = line.substr(0, pos);
+
+		//parse value
+		float value = parse_value(line, pos);
+		if (value == -1)
+			continue;
+		std::cout << value << std::endl;
+
+		// parse date
+		if (!parse_date(line, date))
+			continue;
+		std::cout << date << std::endl;
+		i++;
 	}
 	inFile.close();
 	return 0;
