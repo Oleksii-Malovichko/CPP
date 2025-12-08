@@ -54,7 +54,7 @@ bool parse_date(std::string line, std::string &date)
 		month = std::stoi(month_str);
 		day = std::stoi(day_str);
 	}
-	catch(const std::exception& e)
+	catch(...)
 	{
 		std::cerr << "Error: bad input => " << line << std::endl;
 		return 0;
@@ -75,21 +75,22 @@ int main(int argc, char **argv)
 		std::cerr << "Error: could not open file" << std::endl;
 		return 0;
 	}
+	BitcoinExchange exchange;
+
+	exchange.collectDb("data.csv");
+	// get data from input.txt
 	std::ifstream inFile(argv[1]);
 	if (!inFile.is_open())
 	{
 		std::cerr << "Error: could not open file" << std::endl;
 		return 1;
 	}
-
-
 	std::string line;
-	int i = 0;
+	std::map<std::string, float> info;
 	while (std::getline(inFile, line))
 	{
-		if (i == 0 && line == "date | value")
+		if (line == "date | value")
 		{
-			i++;
 			continue;
 		}
 
@@ -107,14 +108,16 @@ int main(int argc, char **argv)
 		float value = parse_value(line, pos);
 		if (value == -1)
 			continue;
-		std::cout << value << std::endl;
+		// std::cout << value << std::endl;
 
 		// parse date
 		if (!parse_date(line, date))
 			continue;
-		std::cout << date << std::endl;
-		i++;
+		// std::cout << date << std::endl;
+		info[date] = value;
 	}
+
+
 	inFile.close();
 	return 0;
 }
