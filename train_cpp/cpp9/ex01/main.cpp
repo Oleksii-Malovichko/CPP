@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 	if (argc != 2)
 	{
 		std::cerr << "Error" << std::endl;
-		return 0;
+		return 1;
 	}
 	int i = 0;
 	std::vector<std::string> tokens;
@@ -24,12 +24,11 @@ int main(int argc, char **argv)
 		else
 		{
 			std::cerr << "Error" << std::endl;
-			return 0;
+			return 1;
 		}
 		i++;
 	}
-	for (size_t i = 0; i < tokens.size(); i++)
-	{
-		std::cout << tokens[i] << std::endl;
-	}
+	RPN rpn;
+	rpn.proccessNums(tokens);
+	return 0;
 }
