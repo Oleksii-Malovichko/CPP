@@ -38,8 +38,14 @@ void RPN::proccessNums(std::stack<std::string> &tokens)
 			&& tokens2.top() != "*" && tokens2.top() != "/")
 		{
 			// data.push(tokens2[i][0] - '0');
-			data.push(std::stoi(tokens2.top()));
-			tokens2.pop();
+			try
+			{
+				data.push(std::stoi(tokens2.top()));
+			}
+			catch(...)
+			{
+				std::cerr << "Error" << std::endl;
+			}
 		}
 		else
 		{
@@ -67,8 +73,8 @@ void RPN::proccessNums(std::stack<std::string> &tokens)
 				}
 				data.push(a / b);
 			}
-			tokens2.pop();
 		}
+		tokens2.pop();
 	}
 	if (data.size() == 1)
 	{
