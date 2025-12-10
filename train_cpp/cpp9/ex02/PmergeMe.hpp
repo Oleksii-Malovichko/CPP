@@ -4,7 +4,7 @@
 #include <string>
 #include <deque> // аналог вектор
 #include <list>
-
+#include <vector>
 class PmergeMe
 {
 	public:
@@ -13,6 +13,6 @@ class PmergeMe
 		PmergeMe &operator=(const PmergeMe &other);
 		~PmergeMe();
 
-		void mergeInsertSort(std::deque<unsigned int> &deq);
+		void mergeInsertSort(std::vector<unsigned int> &vec);
 		void mergeInsertSort(std::list<unsigned int> &lst);
 };

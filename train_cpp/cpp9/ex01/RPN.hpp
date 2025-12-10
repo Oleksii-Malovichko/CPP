@@ -16,5 +16,5 @@ class RPN
 		RPN &operator=(const RPN &other);
 		~RPN();
 
-		void proccessNums(const std::vector<std::string> &tokens);
+		void proccessNums(std::stack<std::string> &tokens);
 };

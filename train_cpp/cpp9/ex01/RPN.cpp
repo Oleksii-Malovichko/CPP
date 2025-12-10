@@ -19,18 +19,27 @@ RPN &RPN::operator=(const RPN &other)
 RPN::~RPN() {}
 
 
-void RPN::proccessNums(const std::vector<std::string> &tokens)
+void RPN::proccessNums(std::stack<std::string> &tokens)
 {
 	int a;
 	int b;
 
-	for (size_t i = 0; i < tokens.size(); i++)
+	std::stack<std::string> tokens2;
+
+	// get the direction back
+	while (!tokens.empty())
 	{
-		if (tokens[i] != "+" && tokens[i] != "-"
-			&& tokens[i] != "*" && tokens[i] != "/")
+		tokens2.push(tokens.top());
+		tokens.pop();
+	}
+	while (!tokens2.empty())
+	{
+		if (tokens2.top() != "+" && tokens2.top() != "-"
+			&& tokens2.top() != "*" && tokens2.top() != "/")
 		{
-			// data.push(tokens[i][0] - '0');
-			data.push(std::stoi(tokens[i]));
+			// data.push(tokens2[i][0] - '0');
+			data.push(std::stoi(tokens2.top()));
+			tokens2.pop();
 		}
 		else
 		{
@@ -43,13 +52,13 @@ void RPN::proccessNums(const std::vector<std::string> &tokens)
 			data.pop();
 			a = data.top();
 			data.pop();
-			if (tokens[i] == "+")
+			if (tokens2.top() == "+")
 				data.push(a + b);
-			else if (tokens[i] == "-")
+			else if (tokens2.top() == "-")
 				data.push(a - b);
-			else if (tokens[i] == "*")
+			else if (tokens2.top() == "*")
 				data.push(a * b);
-			else if (tokens[i] == "/")
+			else if (tokens2.top() == "/")
 			{
 				if (b == 0)
 				{
@@ -58,6 +67,7 @@ void RPN::proccessNums(const std::vector<std::string> &tokens)
 				}
 				data.push(a / b);
 			}
+			tokens2.pop();
 		}
 	}
 	if (data.size() == 1)

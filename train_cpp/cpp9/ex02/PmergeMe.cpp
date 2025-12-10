@@ -19,60 +19,46 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 PmergeMe::~PmergeMe() {}
 
 
-void PmergeMe::mergeInsertSort(std::deque<unsigned int> &deq)
+void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 {
-	int big;
-	int small;
+	if (vec.size() <= 1)
+		return;
 
-	if (deq.size() <= 1)
-		return ;
-	if (deq.size() == 2)
+	std::vector<unsigned int> bigs;
+	std::vector<unsigned int> smalls;
+
+	for (size_t i = 0; i + 1 < vec.size(); i += 2)
 	{
-		if (deq[0] > deq[1])
-			std::swap(deq[0], deq[1]);
-		return ;
-	}
-	std::deque<std::pair<unsigned int, unsigned int>> storage;
-	// std::deque<unsigned int> smalls;
-	for (auto it = deq.begin(); it + 1 != deq.end(); it+=2)
-	{
-		big = (*it > *it + 1) ? *it : *it + 1;
-		small = (*it > *it + 1) ? *it + 1 : *it;
-		std::pair<unsigned int, unsigned int> p(big, small);
-		storage.push_back(p);
-	}
-	std::deque<unsigned int> bigs;
-	for (auto &p : storage)
-	{
-		bigs.push_back(p.first);
-	}
-	if (deq.size() % 2 != 0)
-	{
-		bigs.push_back(deq.back());
-	}
-	if (bigs.size() <= 2)
-	{
-		if (bigs.size() == 2 && bigs[0] > bigs[1])
+		if (vec[i] > vec[i + 1])
 		{
-			std::swap(bigs[0], bigs[1]);
+			bigs.push_back(vec[i]);
+			smalls.push_back(vec[i + 1]);
+		}
+		else
+		{
+			bigs.push_back(vec[i + 1]);
+			smalls.push_back(vec[i]);
 		}
 	}
-	else
+	if (vec.size() % 2 != 0)
+		smalls.push_back(vec.back());
+	for (size_t i = 1; i < bigs.size(); ++i)
 	{
-		mergeInsertSort(bigs);
-	}
-	// now working with smalls and insert them to sorted deque of bigs
-	std::deque<unsigned int> smalls;
-	for (auto &p : storage)
-	{
-		smalls.push_back(p.second);
+		unsigned int key = bigs[i];
+		size_t j = i;
+		while (j > 0 && bigs[j - 1] > key)
+		{
+			bigs[j] = bigs[j - 1];
+			--j;
+		}
+		bigs[j] = key;
 	}
 	for (unsigned int s : smalls)
 	{
 		auto pos = std::lower_bound(bigs.begin(), bigs.end(), s);
 		bigs.insert(pos, s);
 	}
-	deq = bigs;
+	vec = bigs;
 }
 
 void PmergeMe::mergeInsertSort(std::list<unsigned int> &lst)

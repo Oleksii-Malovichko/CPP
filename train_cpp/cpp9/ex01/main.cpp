@@ -8,13 +8,13 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	int i = 0;
-	std::vector<std::string> tokens;
+	std::stack<std::string> tokens;
 	while (argv[1][i])
 	{
 		if (isdigit(argv[1][i]) || argv[1][i] == '+' || argv[1][i] == '-'
 			|| argv[1][i] == '*' || argv[1][i] == '/')
 		{
-			tokens.push_back(std::string(1, argv[1][i]));
+			tokens.push(std::string(1, argv[1][i]));
 		}
 		else if (argv[1][i] == ' ')
 		{
