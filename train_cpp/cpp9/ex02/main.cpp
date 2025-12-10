@@ -44,5 +44,20 @@ int main(int argc, char **argv)
 		i++;
 	}
 	std::cout << std::endl;
+	
+	PmergeMe merge;
+	std::cout << "After:" << std::endl;
+	merge.mergeInsertSort(deq);
+	for (auto it = deq.begin(); it != deq.end(); it++)
+	{
+		if (deq.size() > 5 && i == 4)
+		{
+			std::cout << "[...]" << std::endl;
+			break;
+		}
+		std::cout << *it << " ";
+		i++;
+	}
+	std::cout << std::endl;
 	return 0;
 }
