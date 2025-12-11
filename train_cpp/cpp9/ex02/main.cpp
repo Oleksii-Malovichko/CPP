@@ -65,11 +65,11 @@ int main(int argc, char **argv)
 	std::vector<unsigned int> v_sorted;
 	for (auto it = vec.begin(); it != vec.end(); it++)
 	{
-		if (vec.size() > 5 && i == 4)
-		{
-			std::cout << "[...]";
-			break;
-		}
+		// if (vec.size() > 5 && i == 4)
+		// {
+		// 	std::cout << "[...]";
+		// 	break;
+		// }
 		std::cout << *it << " ";
 		v_sorted.push_back(*it);
 		i++;

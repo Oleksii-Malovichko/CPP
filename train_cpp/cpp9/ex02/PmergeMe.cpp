@@ -18,7 +18,6 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 
 PmergeMe::~PmergeMe() {}
 
-
 void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 {
 	if (vec.size() <= 1)
@@ -26,7 +25,7 @@ void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 
 	std::vector<unsigned int> bigs;
 	std::vector<unsigned int> smalls;
-
+	// separete to the pairs
 	for (size_t i = 0; i + 1 < vec.size(); i += 2)
 	{
 		if (vec[i] > vec[i + 1])
@@ -40,19 +39,12 @@ void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 			smalls.push_back(vec[i]);
 		}
 	}
+	// if the arr is odd
 	if (vec.size() % 2 != 0)
 		smalls.push_back(vec.back());
-	for (size_t i = 1; i < bigs.size(); ++i)
-	{
-		unsigned int key = bigs[i];
-		size_t j = i;
-		while (j > 0 && bigs[j - 1] > key)
-		{
-			bigs[j] = bigs[j - 1];
-			--j;
-		}
-		bigs[j] = key;
-	}
+	// sorting the bigs using recursion
+	mergeInsertSort(bigs);
+	// select smalls to the sorted bigs arr
 	for (unsigned int s : smalls)
 	{
 		auto pos = std::lower_bound(bigs.begin(), bigs.end(), s);
