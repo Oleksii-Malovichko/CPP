@@ -5,6 +5,8 @@
 #include <deque> // аналог вектор
 #include <list>
 #include <vector>
+#include <algorithm>
+
 class PmergeMe
 {
 	public:

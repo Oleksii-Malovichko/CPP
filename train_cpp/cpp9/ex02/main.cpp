@@ -12,25 +12,15 @@ bool isSorted(std::vector<unsigned int> &vec)
 	return 1;
 }
 
-bool checkLostElements(std::vector<unsigned int> vec, std::vector<unsigned int> v_sorted)
+bool checkLostElements(std::vector<unsigned int> &original, std::vector<unsigned int> &vec)
 {
-	bool found = 0;
-	if (vec.size() != v_sorted.size())
+	if (original.size() != vec.size())
 		return 0;
-	for (size_t i = 0; i < vec.size() ; i++)
+	std::vector<unsigned int> sorted = original;
+	std::sort(sorted.begin(), sorted.end());
+	for (size_t i = 0; i < vec.size(); i++)
 	{
-		size_t j = 0;
-		found = 0;
-		while (j < v_sorted.size())
-		{
-			if (vec[i] == v_sorted[j])
-			{
-				found = 1;
-				break;
-			}
-			j++;
-		}
-		if (!found)
+		if (sorted[i] != vec[i])
 			return 0;
 	}
 	return 1;
@@ -83,10 +73,9 @@ int main(int argc, char **argv)
 	
 	PmergeMe merge;
 	std::cout << "After:" << std::endl;
+	std::vector<unsigned int> original = vec;
 	merge.mergeInsertSort(vec);
-
 	i = 0;
-	std::vector<unsigned int> v_sorted;
 	for (auto it = vec.begin(); it != vec.end(); it++)
 	{
 		// if (vec.size() > 5 && i == 4)
@@ -95,15 +84,14 @@ int main(int argc, char **argv)
 		// 	break;
 		// }
 		std::cout << *it << " ";
-		v_sorted.push_back(*it);
 		i++;
 	}
 	std::cout << std::endl;
-	if (isSorted(v_sorted) && vec.size() == v_sorted.size())
+	if (isSorted(vec))
 		std::cout << "SORTED [OK]" << std::endl;
 	else
 		std::cout << "NOT SORTED [ERROR]" << std::endl;
-	if (checkLostElements(vec, v_sorted))
+	if (checkLostElements(original, vec))
 		std::cout << "NO LOSTED [OK]" << std::endl;
 	else
 		std::cout << "LOSTED ELEMENTS [ERROR]" << std::endl;
