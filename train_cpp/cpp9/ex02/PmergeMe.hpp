@@ -2,10 +2,10 @@
 
 #include <iostream>
 #include <string>
-#include <deque> // аналог вектор
 #include <list>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 class PmergeMe
 {

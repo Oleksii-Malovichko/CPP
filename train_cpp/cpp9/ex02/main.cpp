@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-bool isSorted(std::vector<unsigned int> &vec)
+bool isSorted(const std::vector<unsigned int> &vec)
 {
 	for (size_t i = 0; i + 1 < vec.size(); i++)
 	{
@@ -12,7 +12,7 @@ bool isSorted(std::vector<unsigned int> &vec)
 	return 1;
 }
 
-bool checkLostElements(std::vector<unsigned int> &original, std::vector<unsigned int> &vec)
+bool checkLostElements(const std::vector<unsigned int> &original, const std::vector<unsigned int> &vec)
 {
 	if (original.size() != vec.size())
 		return 0;
@@ -26,11 +26,31 @@ bool checkLostElements(std::vector<unsigned int> &original, std::vector<unsigned
 	return 1;
 }
 
+bool checkDup(int currNum, int i, int argc, char **argv)
+{
+	int num;
+	while (i < argc)
+	{
+		try
+		{
+			num = std::stoi(argv[i]);
+		}
+		catch(const std::exception& e)
+		{
+			return 0;
+		}
+		if (currNum == num)
+			return 0;
+		i++;
+	}
+	return 1;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc == 1)
 	{
-		std::cout << "Error" << std::endl;
+		std::cerr << "Error" << std::endl;
 		return 1;
 	}
 	std::vector<unsigned int> vec;
@@ -48,7 +68,12 @@ int main(int argc, char **argv)
 			std::cerr << "Error" << std::endl;
 			return 1;
 		}
-		if (num <= 0)
+		if (num < 0)
+		{
+			std::cerr << "Error" << std::endl;
+			return 1;
+		}
+		if (!checkDup(num, i + 1, argc, argv))
 		{
 			std::cerr << "Error" << std::endl;
 			return 1;
@@ -74,7 +99,10 @@ int main(int argc, char **argv)
 	PmergeMe merge;
 	std::cout << "After:" << std::endl;
 	std::vector<unsigned int> original = vec;
+	auto start_vec = std::chrono::high_resolution_clock::now();
 	merge.mergeInsertSort(vec);
+	auto end_vec = std::chrono::high_resolution_clock::now();
+	double time_vec = std::chrono::duration<double, std::micro>(end_vec - start_vec).count();
 	i = 0;
 	for (auto it = vec.begin(); it != vec.end(); it++)
 	{
@@ -87,13 +115,27 @@ int main(int argc, char **argv)
 		i++;
 	}
 	std::cout << std::endl;
+	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << time_vec << " us" << std::endl;
+
+	auto start_lst = std::chrono::high_resolution_clock::now();
+	merge.mergeInsertSort(lst);
+	auto end_lst = std::chrono::high_resolution_clock::now();
+	double time_lst = std::chrono::duration<double, std::micro>(end_lst - start_lst).count();
+	for (auto it = lst.begin(); it != lst.end(); it++)
+	{
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "Time to process a range of " << vec.size() << " elements with std::list : " << time_lst << " us" << std::endl;
+
+	// testing if everything was correctly sorted
 	if (isSorted(vec))
 		std::cout << "SORTED [OK]" << std::endl;
 	else
-		std::cout << "NOT SORTED [ERROR]" << std::endl;
+		std::cerr << "NOT SORTED [ERROR]" << std::endl;
 	if (checkLostElements(original, vec))
 		std::cout << "NO LOSTED [OK]" << std::endl;
 	else
-		std::cout << "LOSTED ELEMENTS [ERROR]" << std::endl;
+		std::cerr << "LOSTED ELEMENTS [ERROR]" << std::endl;
 	return 0;
 }

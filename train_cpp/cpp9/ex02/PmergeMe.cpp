@@ -52,11 +52,13 @@ std::vector<size_t> buildJacobsthalIndices(size_t n)
 		// insert j-1, j-2, ..., prev
 		for (size_t i = j; i-- > prev; ) // in a normal view it's working slower!
 			order.push_back(i);
-		prev = j;
+		prev = j + 1;
 	}
 	// insert n-1 till prev (when the nums of Jacobsthal are finished)
 	for (size_t i = n; i-- > prev; )
+	{
 		order.push_back(i);
+	}
 	return order;
 }
 
@@ -64,6 +66,7 @@ void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 {
 	if (vec.size() <= 1)
 		return;
+
 	std::vector<unsigned int> bigs;
 	std::vector<unsigned int> smalls;
 	// separete to the pairs
@@ -84,16 +87,13 @@ void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 	if (vec.size() % 2 != 0)
 		smalls.push_back(vec.back());
 	// sorting the bigs using recursion
-	// mergeInsertSort(bigs);
+	mergeInsertSort(bigs);
 	// get the arr of indices to build the Jacobsthal order
 	std::vector<size_t> order = buildJacobsthalIndices(smalls.size());
+	// security reasons
+	if (order.size() != smalls.size())
+		throw std::logic_error("Invalid Jacobsthal order");
 	// put smalls elements to bigs arr using the gotten order
-	std::cout << "Order size: " << order.size() << std::endl;
-	for (size_t i = 0; i < order.size(); i++)
-	{
-		std::cout << order[i] << " ";
-	}
-	std::cout << std::endl;
 	for (size_t idx : order)
 	{
 		unsigned int value = smalls[idx];
@@ -103,7 +103,59 @@ void PmergeMe::mergeInsertSort(std::vector<unsigned int> &vec)
 	vec = bigs;
 }
 
+
 void PmergeMe::mergeInsertSort(std::list<unsigned int> &lst)
 {
-	(void)lst;
+	if (lst.size() < 2)
+		return ;
+
+	std::list<unsigned int> bigs;
+	std::list<unsigned int> smalls;
+	for (auto it = lst.begin(); it != lst.end(); )
+	{
+		auto next_it = std::next(it);
+		if (next_it == lst.end())
+			break;
+
+		if (*it > *next_it)
+		{
+			bigs.push_back(*it);
+			smalls.push_back(*next_it);
+		}
+		else
+		{
+			bigs.push_back(*next_it);
+			smalls.push_back(*it);
+		}
+
+		it = std::next(next_it); // pass already used element
+	}
+	if (lst.size() % 2 != 0)
+	{
+		smalls.push_back(lst.back());
+	}
+	mergeInsertSort(bigs);
+	std::vector<size_t> order = buildJacobsthalIndices(smalls.size());
+	if (order.size() != smalls.size())
+		throw std::logic_error("Invalid Jacobsthal order");
+	for (size_t idx : order)
+	{
+		auto it = smalls.begin();
+		std::advance(it, idx);
+		unsigned int value = *it;
+
+		auto pos = bigs.begin();
+		while (pos != bigs.end() && *pos < value)
+			pos++;
+		bigs.insert(pos, value);
+	}
+	lst = bigs;
 }
+
+
+/* 
+Advantage of ford johnson:
+Ford–Johnson использует Jacobsthal-sequence,
+чтобы минимизировать количество сравнений при вставке элементов,
+что делает алгоритм асимптотически оптимальным по числу сравнений.
+*/
