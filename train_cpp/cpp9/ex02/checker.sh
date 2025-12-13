@@ -47,5 +47,4 @@
 
 ./PmergeMe >> output.txt
 ./PmergeMe -1 2 >> output.txt
-./PmergeMe 0 5 >> output.txt
 ./PmergeMe 3 abc 5 >> output.txt

@@ -45,6 +45,7 @@ void RPN::proccessNums(std::stack<std::string> &tokens)
 			catch(...)
 			{
 				std::cerr << "Error" << std::endl;
+				return ;
 			}
 		}
 		else

@@ -46,6 +46,21 @@ bool checkDup(int currNum, int i, int argc, char **argv)
 	return 1;
 }
 
+bool compairing(const std::vector<unsigned int> &vec, const std::list<unsigned int> &lst)
+{
+	if (vec.size() != lst.size())
+		return 0;
+
+	int i = 0;
+	for (auto it = lst.begin(); it != lst.end(); it++)
+	{
+		if (*it != vec[i])
+			return 0;
+		i++;
+	}
+	return 1;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc == 1)
@@ -83,7 +98,7 @@ int main(int argc, char **argv)
 		i++;
 	}
 	i = 0;
-	std::cout << "Before:" << std::endl;
+	std::cout << "Before:\t";
 	for (auto it = lst.begin(); it != lst.end(); it++)
 	{
 		// if (lst.size() > 5 && i == 4)
@@ -97,7 +112,7 @@ int main(int argc, char **argv)
 	std::cout << std::endl;
 	
 	PmergeMe merge;
-	std::cout << "After:" << std::endl;
+	std::cout << "After:\t";
 	std::vector<unsigned int> original = vec;
 	auto start_vec = std::chrono::high_resolution_clock::now();
 	merge.mergeInsertSort(vec);
@@ -121,14 +136,15 @@ int main(int argc, char **argv)
 	merge.mergeInsertSort(lst);
 	auto end_lst = std::chrono::high_resolution_clock::now();
 	double time_lst = std::chrono::duration<double, std::micro>(end_lst - start_lst).count();
-	for (auto it = lst.begin(); it != lst.end(); it++)
-	{
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
+	// for (auto it = lst.begin(); it != lst.end(); it++)
+	// {
+	// 	std::cout << *it << " ";
+	// }
+	// std::cout << std::endl;
 	std::cout << "Time to process a range of " << vec.size() << " elements with std::list : " << time_lst << " us" << std::endl;
 
 	// testing if everything was correctly sorted
+	#ifdef DEBUG
 	if (isSorted(vec))
 		std::cout << "SORTED [OK]" << std::endl;
 	else
@@ -137,5 +153,10 @@ int main(int argc, char **argv)
 		std::cout << "NO LOSTED [OK]" << std::endl;
 	else
 		std::cerr << "LOSTED ELEMENTS [ERROR]" << std::endl;
+	if (compairing(vec, lst))
+		std::cout << "COMPAIRING [OK]" << std::endl;
+	else
+		std::cerr << "COMPAIRING [ERROR]" << std::endl;
+	#endif
 	return 0;
 }
