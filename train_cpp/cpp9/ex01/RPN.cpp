@@ -82,5 +82,5 @@ void RPN::proccessNums(std::stack<std::string> &tokens)
 		std::cout << data.top() << std::endl;
 		return ;
 	}
-	std::cout << "Error" << std::endl;
+	std::cout << "Error" << std::endl; // this is the most important part to avoid decimal nums
 }

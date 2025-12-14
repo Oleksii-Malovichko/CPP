@@ -1,12 +1,12 @@
 #include "BitcoinExchange.hpp"
 
-float parse_value(std::string line, std::size_t pos, bool main)
+double parse_value(std::string line, std::size_t pos, bool main)
 {
 	std::string value_str = line.substr(pos + 1);
-	float value;
+	double value;
 	try
 	{
-		value = std::stof(value_str);
+		value = std::stod(value_str);
 	}
 	catch(...)
 	{
@@ -60,7 +60,7 @@ bool parse_date(std::string line, std::string &date)
 		return 0;
 	}
 
-	if (year < 2009 || year > 2022 || month < 1 || month > 12 || day < 1 || day > 31)
+	if (month < 1 || month > 12 || day < 1 || day > 31)
 	{
 		std::cerr << "Error: bad input => " << line << std::endl;
 		return 0;
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 		std::string date = line.substr(0, pos);
 
 		//parse value
-		float value = parse_value(line, pos, 1);
+		double value = parse_value(line, pos, 1);
 		if (value == -1)
 			continue;
 		// std::cout << value << std::endl;

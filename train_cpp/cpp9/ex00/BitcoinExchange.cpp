@@ -35,13 +35,13 @@ void BitcoinExchange::collectDb(const std::string &nameDB)
 		auto it = std::find(line.begin(), line.end(), ',');
 		if (it == line.end())
 		{
-			std::cerr << "Error: bad DB => " << line << std::endl;
+			// std::cerr << "Error: bad DB => " << line << std::endl;
 			return ;
 		}
 		std::size_t pos = it - line.begin();
 		std::string date = line.substr(0, pos);
 		//parse value
-		float value = parse_value(line, pos, 0);
+		double value = parse_value(line, pos, 0);
 		if (value == -1)
 			continue;
 
@@ -55,10 +55,10 @@ void BitcoinExchange::collectDb(const std::string &nameDB)
 	// 	std::cout << pair.first << " -> " << pair.second << std::endl;
 }
 
-void BitcoinExchange::findRate(std::string date, float value)
+void BitcoinExchange::findRate(std::string date, double value)
 {
 	auto it = db.lower_bound(date);
-	float price;
+	double price;
 
 	if (it != db.end() && it->first == date)
 	{

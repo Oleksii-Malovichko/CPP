@@ -9,7 +9,7 @@
 class BitcoinExchange
 {
 	private:
-		std::map<std::string, float> db;
+		std::map<std::string, double> db;
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &other);
@@ -17,8 +17,8 @@ class BitcoinExchange
 		~BitcoinExchange();
 
 		void collectDb(const std::string &nameDB);
-		void findRate(std::string date, float value);
+		void findRate(std::string date, double value);
 };
 
-float parse_value(std::string line, std::size_t pos, bool main);
+double parse_value(std::string line, std::size_t pos, bool main);
 bool parse_date(std::string line, std::string &date);
