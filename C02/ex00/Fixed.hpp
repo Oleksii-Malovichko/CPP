@@ -5,14 +5,15 @@
 
 class Fixed
 {
-private:
-	int					rawBits;
-	static const int	fractionalBits = 8;
-public:
-	Fixed();
-	Fixed(const Fixed& other);
-	~Fixed();
-	Fixed& operator=(const Fixed& other);
-	int getRawBits() const;
-	void setRawBits(int const raw);
+	int value;
+	static const int fractBits = 8;
+	public:
+		Fixed(void);
+		Fixed(const Fixed &other); // конструктор копирования
+		Fixed& operator=(const Fixed &other); // оператор присваивания копированием
+		~Fixed(void);
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
 };
+
+//[int getRawBits(void) const] мы только возвращаем значение, и ничего не меняем, поэтому const

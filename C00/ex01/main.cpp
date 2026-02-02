@@ -28,13 +28,3 @@ int main()
 	}
 	return 0;
 }
-
-/* 
-
-проблемы с getline in main
-problems with std::cin in std::cin >> index; after clickin ctrl+d
-
-также при получении ввода нужно удалять пробелы, если человек введет "     ADD" ф-я не сработает
-
-- Entering non-numeric input in the SEARCH (when an index is expected). - Sending EOF (Ctrl-D) in SEARCH or the main loop. 
-I'm sure you can fix those things easily*/

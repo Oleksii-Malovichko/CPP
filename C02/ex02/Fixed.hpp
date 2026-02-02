@@ -1,45 +1,51 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <cmath>
 
 class Fixed
 {
-	private:
-		int	rawBits;
-		static const int fractBits = 8;
+	int value;
+	static const int fractBits = 8;
 	public:
-		Fixed();
-		Fixed(const int raw);
-		Fixed(const float raw);
-		Fixed(const Fixed& other);
-		Fixed& operator=(const Fixed& other);
-		~Fixed();
-		
-		int getRawBits() const;
-		void setRawBits(int const raw);
-		float toFloat() const;
-		int toInt() const;
+		Fixed(void);
+		Fixed(const int num);
+		Fixed(const float fnum);
+		Fixed(const Fixed &other); // конструктор копирования
+		Fixed& operator=(const Fixed &other); // оператор присваивания копированием
+		~Fixed(void);
 
-		Fixed operator+(const Fixed& other) const;
-		Fixed operator-(const Fixed& other) const;
-		Fixed operator*(const Fixed& other) const;
-		Fixed operator/(const Fixed& other) const;
-		bool operator>(const Fixed& other) const;
-		bool operator<(const Fixed& other) const;
-		bool operator>=(const Fixed& other) const;
-		bool operator<=(const Fixed& other) const;
-		bool operator==(const Fixed& other) const;
-		bool operator!=(const Fixed& other) const;
-		Fixed& operator++();
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
+	
+		float toFloat(void) const;
+		int toInt(void) const;
+		// comparison operators
+		bool operator>(Fixed const &other) const;
+		bool operator<(Fixed const &other) const;
+		bool operator>=(Fixed const &other) const;
+		bool operator<=(Fixed const &other) const;
+		bool operator==(Fixed const &other) const;
+		bool operator!=(Fixed const &other) const;
+
+		// 4 arithmetic operators
+		Fixed operator+(Fixed const &other) const;
+		Fixed operator-(Fixed const &other) const;
+		Fixed operator*(Fixed const &other) const;
+		Fixed operator/(Fixed const &other) const;
+
+		// post-incrementing/decrementing
+		Fixed &operator++();
 		Fixed operator++(int);
-		Fixed& operator--();
+		Fixed &operator--();
 		Fixed operator--(int);
-		static Fixed& min(Fixed& a, Fixed& b);
-		static const Fixed& min(const Fixed& a, const Fixed& b);
-		static Fixed& max(Fixed& a, Fixed& b);
-		static const Fixed& max(const Fixed& a, const Fixed& b);
+
+		// overloaded member funcs
+		static Fixed &min(Fixed &p1, Fixed &p2);
+		static const Fixed &min(Fixed const &p1, Fixed const &p2);
+		static Fixed &max(Fixed &p1, Fixed &p2);
+		static const Fixed &max(Fixed const &p1, Fixed const &p2);
 };
 
-std::ostream& operator<<(std::ostream& os, const Fixed& fixed);
-
+std::ostream& operator<<(std::ostream& out, const Fixed& fixed);

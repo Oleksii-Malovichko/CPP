@@ -3,9 +3,8 @@
 int main()
 {
 	Harl harl;
-
-	harl.complain("DEBUG");
-	harl.complain("ERROR");
-	harl.complain("WARNING");
-	harl.complain("INFO");
+	harl.complain("debug");
+	harl.complain("warning");
+	harl.complain("info");
+	harl.complain("debug");
 }

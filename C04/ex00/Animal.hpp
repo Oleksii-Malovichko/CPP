@@ -9,23 +9,10 @@ class Animal
 		std::string type;
 	public:
 		Animal();
-		virtual ~Animal(); // to do the destructor for cat and dog
+		Animal(const Animal &other);
+		Animal &operator=(const Animal &other);
+		virtual ~Animal();
+
 		virtual void makeSound() const;
-		std::string	getType() const;
-};
-
-class Dog : public Animal
-{
-	public:
-		Dog();
-		virtual ~Dog();
-		void	makeSound() const override;
-};
-
-class Cat : public Animal
-{
-	public:
-		Cat();
-		virtual ~Cat();
-		void	makeSound() const override;
+		std::string getType() const;
 };

@@ -1,21 +1,25 @@
-NAME = output
+NAME = brain
 
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = main.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME):
-	@echo "Compiling..."
-	@$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
-	@echo "Ready"
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	@echo "remove $(NAME)"
-	@rm -rf $(NAME)
+	rm -f $(OBJS)
 
 fclean: clean
+	rm -f $(NAME)
 
-re: clean all
+re: fclean all
+
+.PHONY: all clean fclean re

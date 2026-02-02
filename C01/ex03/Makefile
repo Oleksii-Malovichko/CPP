@@ -1,21 +1,25 @@
-NAME = violence
-
-SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
+NAME = weapon
 
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+SRCS = main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): Makefile
-	@echo "Compiling..."
-	@$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
-	@echo "Ready!"
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	@echo "Remove $(NAME)"
-	@rm -rf $(NAME)
+	rm -f $(OBJS)
 
 fclean: clean
+	rm -f $(NAME)
 
-re: clean all
+re: fclean all
+
+.PHONY: all clean fclean re

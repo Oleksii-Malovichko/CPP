@@ -1,26 +1,25 @@
-#include "Animal.hpp"
+#include "Dog.hpp"
 
 Dog::Dog()
 {
 	type = "Dog";
 	brain = new Brain();
-	std::cout << "Dog constructed." << std::endl;
+	std::cout << "Dog constructor called" << std::endl;
 }
 
 Dog::Dog(const Dog &other) : Animal(other)
 {
-	std::cout << "Dog copy constructed." << std::endl;
-	brain = new Brain(*other.brain);
+	this->brain = new Brain(*other.brain);
+	// this->type = other.type; // убрать так как это делает : Animal(other)
+	std::cout << "Dog copy constructor called" << std::endl;
 }
 
 Dog &Dog::operator=(const Dog &other)
 {
-	std::cout << "Dog assigned." << std::endl;
 	if (this != &other)
 	{
-		type = other.type;
-		delete brain;
-		brain = new Brain(*other.brain);
+		this->type = other.type;
+		*brain = *other.brain;
 	}
 	return *this;
 }
@@ -28,10 +27,10 @@ Dog &Dog::operator=(const Dog &other)
 Dog::~Dog()
 {
 	delete brain;
-	std::cout << "Dog destructed." << std::endl;
+	std::cout << "Dog destructor called" << std::endl;
 }
 
-void	Dog::makeSound() const
+void Dog::makeSound() const
 {
-	std::cout << "Woof!" << std::endl;
+	std::cout << "Dog: Bark..." << std::endl;
 }

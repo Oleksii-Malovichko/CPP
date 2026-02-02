@@ -2,19 +2,27 @@
 
 int main()
 {
-	ClapTrap a("Hitter 1");
-	a.attack("Target");
-	a.takeDamage(5);
-	a.beRepaired(3);
-	a.attack("Target2");
+	ClapTrap c1("Jack");
+	ClapTrap c2("Bob");
 
-	std::cout << "-----------check errors------------" << std::endl;
-	ClapTrap b("Clappy");
-	for (int i = 0; i < 11; i++)
-		b.attack("dummy");
-	b.attack("no energy");
-	b.takeDamage(10);
-	b.attack("dead");
-	b.beRepaired(5);
-	return 0;
+	std::cout << "\n--- ATTACK TEST ---" << std::endl;
+	c1.attack("Bob");
+	std::cout << "\n--- DAMAGE TEST ---" << std::endl;
+	c2.takeDamage(5);
+	std::cout << "\n--- REPAIR TEST ---" << std::endl;
+	c2.beRepaired(3);
+	std::cout << "\n--- DAMAGE UNTIL DEATH ---" << std::endl;
+	c2.takeDamage(20);
+	std::cout << "\n--- TRY ACTIONS WHEN DEAD ---" << std::endl;
+	c2.attack("Jack");
+	c2.beRepaired(5);
+	std::cout << "\n--- ENERGY DRAIN TEST ---" << std::endl;
+    for (int i = 0; i < 11; i++)
+	{
+        c1.attack("target");
+	}
+	std::cout << "\n--- COPY & ASSIGNMENT TEST ---" << std::endl;
+	ClapTrap c3 = c1;
+	ClapTrap c4;
+	c4 = c2;
 }

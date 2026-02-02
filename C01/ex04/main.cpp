@@ -1,63 +1,78 @@
-#include "File.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
 
-std::string replaceAll(const std::string &line, const std::string &s1, const std::string &s2)
+std::string doReplace(std::string buffer, std::string s1, std::string s2, size_t start = 0)
 {
-	std::string result;
-	size_t pos = 0;
-	size_t found;
+	std::size_t i = 0;
+	std::size_t j = 0;
+	std::size_t pos;
+	std::string buffer2;
 
-	while ((found = line.find(s1, pos)) != std::string::npos)
+	pos = buffer.find(s1, start);
+	if (pos == std::string::npos)
+		return buffer;
+	while (i < pos)
 	{
-		result.append(line, pos, found - pos);
-		result += s2;
-		pos = found + s1.length();
+		buffer2 += buffer[i];
+		i++;
 	}
-	result.append(line, pos, std::string::npos);
-	return result;
+	while (j < s2.length())
+	{
+		buffer2 += s2[j];
+		j++;
+		i++;
+	}
+	size_t k = pos + s1.length();
+	while (k < buffer.length())
+	{
+		buffer2 += buffer[k];
+		k++;
+	}
+	return doReplace(buffer2, s1, s2, i);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
+	// получение аргументов в переменные
 	if (argc != 4)
 	{
-		std::cerr << "Expected 3 arguments: <namefile> <str1> <str2>" << std::endl;
+		std::cerr << "Usage: " << argv[0] << " <filename> <s1> <s2>" << std::endl;
 		return 1;
 	}
-	std::string fileName = argv[1];
+	std::string filename = argv[1];
 	std::string s1 = argv[2];
 	std::string s2 = argv[3];
-	std::string newFile = fileName + ".replace";
-	if (fileName.empty() || fileName == "\n")
+	if (s1.empty() || s2.empty() || filename.empty())
 	{
-		std::cerr << "Error: filename must not be empty" << std::endl;
+		std::cerr << "I'm not a fool to execute the program with such \"nice\" arguments ;)" << std::endl;
 		return 1;
 	}
-	if ((s1.empty() || s1 == "\n" ) || (s2.empty() || s2 == "\n"))
-	{
-		std::cerr << "Error: s1 and s2 must not be empty" << std::endl;
-		return 1;
-	}
-
-	std::ifstream inputFile(argv[1]);
+	// открытие файла
+	std::ifstream inputFile(filename);
 	if (!inputFile.is_open())
 	{
-		std::cerr << "Could not open file for reading" << std::endl;
+		std::cerr << "Error: could not open file" << std::endl;
 		return 1;
 	}
-	std::ofstream outputFile(newFile);
-	if (!outputFile.is_open())
+	// запись из файла в переменную
+	std::string buffer;
+	char c;
+	while (inputFile.get(c))
 	{
-		std::cerr << "Could not open file for writing" << std::endl;
-		return 1;
-	}
-	std::string line;
-	while (std::getline(inputFile, line))
-	{
-		outputFile << replaceAll(line, s1, s2);
-		if (!inputFile.eof())
-			outputFile << std::endl;
+		buffer += c;
 	}
 	inputFile.close();
-	outputFile.close();
+	// получение корректной строки
+	std::string replaced = doReplace(buffer, s1, s2);
+	// запись в другой файл
+	std::ofstream outputFile(filename+=".replace");
+	if (!outputFile.is_open())
+	{
+		std::cerr << "Error: could not create output file" << std::endl;
+		return 1;
+	}
+	outputFile << replaced;
 	return 0;
 }

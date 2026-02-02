@@ -1,21 +1,25 @@
-NAME = complain
-
-SRCS = main.cpp Harl.cpp
+NAME = harl
 
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++11
+
+SRCS = main.cpp Harl.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): Makefile
-	@echo "Compiling..."
-	@$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
-	@echo "Ready!"
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	@echo "Removing $(NAME)"
-	@rm -f $(NAME)
+	rm -f $(OBJS)
 
 fclean: clean
+	rm -f $(NAME)
 
-re: clean all
+re: fclean all
+
+.PHONY: all clean fclean re

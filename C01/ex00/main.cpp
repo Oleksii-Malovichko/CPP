@@ -2,16 +2,12 @@
 
 int main()
 {
-	Zombie *alloc = newZombie("heap: ");
-
-	if (!alloc)
-	{
-		perror("malloc");
-		return (1);
-	}
-	alloc->announce();
-	delete alloc;
-
-	randomChump("stack: ");
-	return (0);
+	Zombie *z1 = newZombie("Heap");
+	if (!z1)
+		return 1;
+	z1->announce();
+	
+	randomChump("Stack");
+	delete z1;
+	return 0;
 }

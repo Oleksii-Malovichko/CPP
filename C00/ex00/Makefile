@@ -1,22 +1,29 @@
-NAME=megaphone
+NAME = megaphone
 
-CPP=c++
-CPP_FLAGS=-Wall -Wextra -Werror -std=c++11
-SRCS=megaphone.cpp
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++11
+
+SRCS = megaphone.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRCS)
+$(NAME): $(OBJS)
 	@echo "Compiling $(NAME)"
-	@$(CPP) $(CPP_FLAGS) $(SRCS) -o $(NAME)
+	@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 	@echo "Ready"
+
+%.o: %.cpp
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	@echo "Remove $(OBJS)"
+	@rm -f $(OBJS)
+
+fclean: clean
+	@echo "Remove $(NAME)"
+	@rm -f $(NAME)
 
 re: clean all
 
-clean:
-	@echo "Remove $(NAME)"
-	@rm -rf $(NAME)
-
-fclean: clean
-
-.PHONY: all re clean fclean
+.PHONY: all clean fclean re

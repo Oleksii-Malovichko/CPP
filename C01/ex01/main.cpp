@@ -2,15 +2,19 @@
 
 int main()
 {
-	int n = 5;
-	Zombie *horde = zombieHorde(n, "Horde ");
-	if (!horde)
+	// Zombie *z1 = newZombie("Heap");
+	// if (!z1)
+	// 	return 1;
+	// z1->announce();
+	
+	// randomChump("Stack");
+	// delete z1;
+
+	Zombie *horde = zombieHorde(5, "Name");
+	for (int i = 0; i < 5; i++)
 	{
-		perror("malloc");
-		return 1;
-	}
-	for (int i = 0; i < n; i++)
 		horde[i].announce();
-	delete[] horde;
-	return (0);
+	}
+	delete [] horde;
+	return 0;
 }

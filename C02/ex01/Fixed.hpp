@@ -1,26 +1,27 @@
 #pragma once
 
-#include <string>
 #include <iostream>
+#include <string>
 #include <cmath>
 
 class Fixed
 {
-	private:
-		int	rawBits;
-		static const int fractBits = 8;
+	int value;
+	static const int fractBits = 8;
 	public:
-		Fixed();
-		Fixed(const int raw);
-		Fixed(const float raw);
-		Fixed(const Fixed& other);
-		Fixed& operator=(const Fixed& other);
-		~Fixed();
-		int getRawBits() const;
+		Fixed(void);
+		Fixed(const int num);
+		Fixed(const float fnum);
+		Fixed(const Fixed &other); // конструктор копирования
+		Fixed& operator=(const Fixed &other); // оператор присваивания копированием
+		~Fixed(void);
+
+		int getRawBits(void) const;
 		void setRawBits(int const raw);
-		float toFloat() const;
-		int toInt() const;
-		
+	
+		float toFloat(void) const;
+		int toInt(void) const;
+
 };
 
-std::ostream& operator<<(std::ostream& os, const Fixed& fixed);
+std::ostream& operator<<(std::ostream& out, const Fixed& fixed);

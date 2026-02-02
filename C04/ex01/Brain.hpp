@@ -1,7 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "Animal.hpp"
+// #include "Cat.hpp"
+// #include "Dog.hpp"
 
 class Brain
 {
@@ -9,9 +10,7 @@ class Brain
 		std::string ideas[100];
 	public:
 		Brain();
-		Brain(const Brain &other); // copy constructor
-		Brain& operator=(const Brain &other);
+		Brain(const Brain &other);
+		Brain &operator=(const Brain &other);
 		~Brain();
-		void setIdea(int index, const std::string &idea);
-		std::string getIdea(int index) const;
 };
