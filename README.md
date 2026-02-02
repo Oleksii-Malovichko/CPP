@@ -8,20 +8,9 @@ Each project directory ('C00', 'C01', ...) includes:
 - A Makefile to compile the project
 
 ## Usage
-Build a single project
-
-```bash
-make -C C00
-```
-
 Build all projects:
 ```bash
 make
-```
-
-Clean a project:
-```bash
-make -C C00 clean
 ```
 
 Clean all projects:
